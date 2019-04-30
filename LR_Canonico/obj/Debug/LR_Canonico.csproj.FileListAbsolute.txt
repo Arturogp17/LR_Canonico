@@ -1,0 +1,10 @@
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\bin\Debug\LR_Canonico.exe.config
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\bin\Debug\LR_Canonico.exe
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\bin\Debug\LR_Canonico.pdb
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.csprojAssemblyReference.cache
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.Form1.resources
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.Properties.Resources.resources
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.csproj.GenerateResource.cache
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.csproj.CoreCompileInputs.cache
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.exe
+C:\Users\artur\OneDrive\Documentos\UASLP\Sem 2018-2019-II\Compiladores A\LR_Canonico\LR_Canonico\obj\Debug\LR_Canonico.pdb
