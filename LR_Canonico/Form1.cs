@@ -43,11 +43,23 @@ namespace LR_Canonico
                     {
                         gram.Clear();
                         gramatica.Clear();
+                        expandida.Clear();
                         tablaCanonica.Rows.Clear();
                         tablaCanonica.Columns.Clear();
                         treeConjuntos.BeginUpdate();
                         treeConjuntos.Nodes.Clear();
                         treeConjuntos.EndUpdate();
+
+                        treePrimero.BeginUpdate();
+                        treePrimero.Nodes.Clear();
+                        treePrimero.EndUpdate();
+
+                        treeSiguiente.BeginUpdate();
+                        treeSiguiente.Nodes.Clear();
+                        treeSiguiente.EndUpdate();
+
+                        tablaCanonica.Rows.Clear();
+                        tablaCanonica.Columns.Clear();
                         StreamReader sr = new StreamReader(openFileDialog1.FileName);
                         line = sr.ReadLine();
                         while (line != null)
@@ -342,10 +354,14 @@ namespace LR_Canonico
                         if (nAux != null)
                         {
                             Arista a = new Arista(nAux, x);
-                            conjuntoAux.aristas.Add(a);
+                            conjuntos[k].aristas.Add(a);
                         }
                         else
+                        {
+                            Arista a = new Arista(conjuntoAux, x);
+                            conjuntos[k].aristas.Add(a);
                             conjuntos.Add(conjuntoAux);
+                        }
                     }
                 }
             }
@@ -457,6 +473,7 @@ namespace LR_Canonico
 
         private void ObtenerX()
         {
+            X.Add("$");
             foreach (Nodo nodo in g)
             {
                 foreach (List<string> ls in nodo.producciones)
@@ -553,9 +570,14 @@ namespace LR_Canonico
             {
                 if (char.IsUpper(x[0]) && !char.IsUpper(y[0])) return 1;
                 else if (char.IsUpper(y[0]) && !char.IsUpper(x[0])) return -1;
+                else if (char.IsLower(x[0]) && !char.IsLower(y[0])) return -1;
+                else if (char.IsLower(y[0]) && !char.IsLower(x[0])) return 1;
                 else return 0;
             });
-            
+            X.Remove("$");
+            int i;
+            for (i = 0; i < X.Count && !char.IsUpper(X[i][0]); i++) ;
+            X.Insert(i, "$");
             tablaCanonica.Columns.Add("Estados", "Estados");
 
             foreach (string x in X)
@@ -565,6 +587,38 @@ namespace LR_Canonico
             foreach(Nodo edo in conjuntos)
             {
                 tablaCanonica.Rows.Add(edo.name);
+            }
+
+            foreach(Nodo nodo in conjuntos)
+            {
+                foreach(Arista a in nodo.aristas)
+                {
+                    for (i = 0; i < tablaCanonica.Columns.Count && tablaCanonica.Columns[i].Name != a.name; i++) ;
+                    if (!char.IsUpper(a.name[0]))
+                        tablaCanonica[i, int.Parse(nodo.name.Substring(1))].Value = "d" + a.destino.name.Substring(1);
+                    else
+                        tablaCanonica[i, int.Parse(nodo.name.Substring(1))].Value = a.destino.name.Substring(1);
+                }
+                foreach (string l in nodo.LRproduccciones)
+                {
+                    if(l.Last() == '•' && l[1] == '-')
+                    {
+                        Nodo n = new Nodo();
+                        string aux = l;
+                        aux = aux.Remove(aux.Length - 1);
+                        int j;
+                        for (j = 0; j < gramatica.Count && gramatica[j] != aux; j++) ;
+                        if (char.IsUpper(aux[0]))
+                        {
+                            n = BuscaNodo(aux[0].ToString());
+                            foreach (string s in n.siguiente)
+                            {
+                                for (i = 0; i < tablaCanonica.Columns.Count && tablaCanonica.Columns[i].Name != s; i++) ;
+                                tablaCanonica[i, int.Parse(nodo.name.Substring(1))].Value = "r" + (j+ 1).ToString();
+                            }
+                        }
+                    }
+                }
             }
         }
     }
