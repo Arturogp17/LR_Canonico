@@ -13,20 +13,14 @@ namespace LR_Canonico
 {
     public partial class Form1 : Form
     {
-        List<string> gramatica = new List<string>();
-        List<string> lines = new List<string>();
-        List<Nodo> g = new List<Nodo>();
-        List<Nodo> conjuntos = new List<Nodo>();
-        List<string> X = new List<string>();
+        readonly List<string> gramatica = new List<string>();
+        readonly List<string> lines = new List<string>();
+        readonly List<Nodo> g = new List<Nodo>();
+        readonly List<Nodo> conjuntos = new List<Nodo>();
+        readonly List<string> X = new List<string>();
         public Form1()
         {
-            
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void ToolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -49,6 +43,11 @@ namespace LR_Canonico
                     {
                         gram.Clear();
                         gramatica.Clear();
+                        tablaCanonica.Rows.Clear();
+                        tablaCanonica.Columns.Clear();
+                        treeConjuntos.BeginUpdate();
+                        treeConjuntos.Nodes.Clear();
+                        treeConjuntos.EndUpdate();
                         StreamReader sr = new StreamReader(openFileDialog1.FileName);
                         line = sr.ReadLine();
                         while (line != null)
@@ -120,8 +119,10 @@ namespace LR_Canonico
                 if (g.Count == 0)
                 {
                     Nodo n = new Nodo(cad[0] + "'");
-                    List<string> l = new List<string>();
-                    l.Add(cad[0]);
+                    List<string> l = new List<string>
+                    {
+                        cad[0]
+                    };
                     n.producciones.Add(l);
                     g.Add(n);
                     lines.Add(cad[0] + "'->" + cad[0]);
@@ -133,7 +134,6 @@ namespace LR_Canonico
                     g.Add(nodo);
                 }
             }
-
             expandida.Lines = lines.ToArray();
         }
 
@@ -286,6 +286,7 @@ namespace LR_Canonico
             CalculaSiguiente();
             GeneraP();
             GeneraConjuntos();
+            GeneraTabla();
         }
 
         private void GeneraP()
@@ -308,7 +309,7 @@ namespace LR_Canonico
         private void GeneraConjuntos()
         {
             Nodo nAux = new Nodo();
-            Nodo nodo = new Nodo("0");
+            Nodo nodo = new Nodo("I0");
             nodo.LRproduccciones.Add(g[0].name + "->•" + g[0].LRp[0]);
             nodo.LRterminales.Add("$");
             string componentes = "", cad = "";
@@ -319,12 +320,11 @@ namespace LR_Canonico
             {
                 foreach (string x in X)
                 {
-                    Nodo conjuntoAux = new Nodo();
-                    conjuntoAux.name = conjuntos.Count().ToString();
+                    Nodo conjuntoAux = new Nodo("I" + conjuntos.Count().ToString());
                     for (int i = 0; i < conjuntos[k].LRproduccciones.Count; i++)
                     {
                         componentes = SeparaPunto(conjuntos[k].LRproduccciones[i]);
-                        if(componentes.Count() > 0 && componentes[0].ToString() == x)
+                        if(componentes.Count() > 0 && ComparaCadenas(componentes, x))
                         {
                             cad = RecorrePunto(conjuntos[k].LRproduccciones[i]);
                             componentes = SeparaPunto(cad);
@@ -352,6 +352,28 @@ namespace LR_Canonico
             DibujarConuntos();
         }
 
+        private bool ComparaCadenas(string a, string x)
+        {
+            bool band = false;
+            string cad = "";
+            foreach (char c in a)
+            {
+                if (char.IsUpper(c))
+                {
+                    if (!band)
+                        cad = c.ToString();
+                    break;
+                }
+                else
+                {
+                    cad += c;
+                    band = true;
+                }
+            }
+
+            return cad == x;
+        }
+
         private Nodo VerificaRepetido(Nodo n)
         {
             int cont = 0;
@@ -363,12 +385,30 @@ namespace LR_Canonico
                     {
                         for (int j = 0; j < c.LRproduccciones.Count; j++)
                         {
-                            if(n.LRproduccciones[i] == c.LRproduccciones[j] && n.LRterminales[i] == c.LRterminales[j])
+                            if(n.LRproduccciones[i] == c.LRproduccciones[j])
                                 cont++;
                         }
                     }
                     if (cont == n.LRproduccciones.Count)
+                    {
+                        for (int i = 0; i < n.LRproduccciones.Count; i++)
+                        {
+                            for (int j = 0; j < c.LRproduccciones.Count; j++)
+                            {
+                                if (n.LRproduccciones[i] == c.LRproduccciones[j])
+                                {
+                                    List<string> t = new List<string>();
+                                    t = n.LRterminales[i].Split('/').ToList();
+                                    foreach(string s in t)
+                                    {
+                                        if (!c.LRterminales[j].Contains(s))
+                                            c.LRterminales[j] += "/" + s;
+                                    }
+                                }
+                            }
+                        }
                         return c;
+                    }
                     else
                         cont = 0;
                 }
@@ -383,7 +423,19 @@ namespace LR_Canonico
             List<string> r = new List<string>();
 
             r = oracion.Split('•').ToList();
-            res += r[0] + r[1][0] + "•" + r[1].Substring(1);
+            if(char.IsLower(r[1][0]))
+            {
+                string cad = "";
+                while(r[1].Length > 0 && char.IsLower(r[1][0]))
+                {
+                    cad += r[1][0];
+                    r[1] = r[1].Substring(1);
+                    
+                }
+                res = r[0] + cad + "•" + r[1];
+            }
+            else
+                res += r[0] + r[1][0] + "•" + r[1].Substring(1);
 
             return res;
         }
@@ -393,7 +445,7 @@ namespace LR_Canonico
             treeConjuntos.BeginUpdate();
             for (int i = 0; i < conjuntos.Count; i++)
             {
-                treeConjuntos.Nodes.Add("I" + conjuntos[i].name);
+                treeConjuntos.Nodes.Add(conjuntos[i].name);
                 for (int j = 0; j < conjuntos[i].LRproduccciones.Count; j++)
                 {
                     treeConjuntos.Nodes[i].Nodes.Add(conjuntos[i].LRproduccciones[j] + "  ,  " + conjuntos[i].LRterminales[j]);
@@ -432,7 +484,7 @@ namespace LR_Canonico
                     if (componentes.Length > 1)
                     {
                         if (char.IsUpper(componentes[1]))
-                            terminales = obtenerPrimeros(componentes[1].ToString());
+                            terminales = ObtenerPrimeros(componentes[1].ToString());
                         else
                             terminales = componentes[1].ToString();
                     }
@@ -445,7 +497,7 @@ namespace LR_Canonico
                         if (edo.LRproduccciones.Contains(nodoAux.name + "->•" + s))
                         {
                             int x;
-                            x = obtenerPosicion(edo.LRproduccciones, nodoAux.name + "->•" + s);
+                            x = ObtenerPosicion(edo.LRproduccciones, nodoAux.name + "->•" + s);
 
                             if (!edo.LRterminales[x].Contains(terminales))
                                 edo.LRterminales[x] += "/" + terminales;
@@ -460,7 +512,7 @@ namespace LR_Canonico
             }
         }
 
-        private int obtenerPosicion(List<string> l, string b)
+        private int ObtenerPosicion(List<string> l, string b)
         {
             for (int i = 0; i < l.Count; i++)
             {
@@ -484,7 +536,7 @@ namespace LR_Canonico
             return aux;
         }
 
-        private string obtenerPrimeros(string n)
+        private string ObtenerPrimeros(string n)
         {
             string res = "";
             Nodo nodo = new Nodo();
@@ -495,37 +547,25 @@ namespace LR_Canonico
             return res;
         }
 
-        private List<string> Separa(string ex, char separador)
+        private void GeneraTabla()
         {
-            string cad = "";
-            List<string> ls = new List<string>();
-            int bLlave = 0;
-
-            foreach (char c in ex)
+            X.Sort(delegate (string x, string y)
             {
-                if (c == '{' || c == '(')
-                    bLlave++;
+                if (char.IsUpper(x[0]) && !char.IsUpper(y[0])) return 1;
+                else if (char.IsUpper(y[0]) && !char.IsUpper(x[0])) return -1;
+                else return 0;
+            });
+            
+            tablaCanonica.Columns.Add("Estados", "Estados");
 
-                if (bLlave == 0)
-                {
-                    if (c == separador)
-                    {
-                        ls.Add(cad);
-                        cad = "";
-                    }
-                    else
-                        cad += c;
-                }
-                else
-                {
-                    cad += c;
-                }
-                if (c == '}' || c == ')')
-                    bLlave--;
+            foreach (string x in X)
+            {
+                tablaCanonica.Columns.Add(x, x);
             }
-            if (cad.Length > 0)
-                ls.Add(cad);
-            return ls;
+            foreach(Nodo edo in conjuntos)
+            {
+                tablaCanonica.Rows.Add(edo.name);
+            }
         }
     }
 }

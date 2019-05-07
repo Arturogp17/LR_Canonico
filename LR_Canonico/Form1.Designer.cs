@@ -49,8 +49,10 @@
             this.gram = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.treeConjuntos = new System.Windows.Forms.TreeView();
+            this.tablaCanonica = new System.Windows.Forms.DataGridView();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaCanonica)).BeginInit();
             this.SuspendLayout();
             // 
             // expandida
@@ -120,7 +122,7 @@
             this.open});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(579, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1132, 25);
             this.toolStrip1.TabIndex = 14;
             this.toolStrip1.Text = "toolStrip1";
             this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ToolStrip1_ItemClicked);
@@ -151,7 +153,7 @@
             this.archivoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(579, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1132, 24);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -227,11 +229,21 @@
             this.treeConjuntos.Size = new System.Drawing.Size(240, 296);
             this.treeConjuntos.TabIndex = 20;
             // 
+            // tablaCanonica
+            // 
+            this.tablaCanonica.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.tablaCanonica.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tablaCanonica.Location = new System.Drawing.Point(579, 72);
+            this.tablaCanonica.Name = "tablaCanonica";
+            this.tablaCanonica.Size = new System.Drawing.Size(541, 333);
+            this.tablaCanonica.TabIndex = 21;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 417);
+            this.ClientSize = new System.Drawing.Size(1132, 417);
+            this.Controls.Add(this.tablaCanonica);
             this.Controls.Add(this.treeConjuntos);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.gram);
@@ -248,11 +260,11 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaCanonica)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,6 +292,7 @@
         private System.Windows.Forms.RichTextBox gram;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TreeView treeConjuntos;
+        private System.Windows.Forms.DataGridView tablaCanonica;
     }
 }
 
