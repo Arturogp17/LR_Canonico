@@ -41,8 +41,6 @@ namespace LR_Canonico
                     openFileDialog1.Filter = "(*.txt)|*.txt";
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        gram.Clear();
-                        gramatica.Clear();
                         expandida.Clear();
                         tablaCanonica.Rows.Clear();
                         tablaCanonica.Columns.Clear();
@@ -174,7 +172,7 @@ namespace LR_Canonico
                         if (char.IsUpper(ls[0][0]) && ls[0] != n.name)
                         {
                             nAux = BuscaNodo(ls[0]);
-                            if (CambioGenerado(n.primero, nAux.primero))
+                            if (nAux != null && CambioGenerado(n.primero, nAux.primero))
                             {
                                 cambio = true;
                                 n.primero = n.primero.Union(nAux.primero).ToList();
@@ -293,12 +291,37 @@ namespace LR_Canonico
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            GramaticaExpandida();
-            CalculaPrimero();
-            CalculaSiguiente();
-            GeneraP();
-            GeneraConjuntos();
-            GeneraTabla();
+            if (gram.Text.Count() > 0)
+            {
+                expandida.Clear();
+                tablaCanonica.Rows.Clear();
+                tablaCanonica.Columns.Clear();
+                treeConjuntos.BeginUpdate();
+                treeConjuntos.Nodes.Clear();
+                treeConjuntos.EndUpdate();
+
+                treePrimero.BeginUpdate();
+                treePrimero.Nodes.Clear();
+                treePrimero.EndUpdate();
+
+                treeSiguiente.BeginUpdate();
+                treeSiguiente.Nodes.Clear();
+                treeSiguiente.EndUpdate();
+
+                tablaCanonica.Rows.Clear();
+                tablaCanonica.Columns.Clear();
+
+                X.Clear();
+                g.Clear();
+                conjuntos.Clear();
+
+                GramaticaExpandida();
+                CalculaPrimero();
+                CalculaSiguiente();
+                GeneraP();
+                GeneraConjuntos();
+                GeneraTabla();
+            }
         }
 
         private void GeneraP()
@@ -473,6 +496,7 @@ namespace LR_Canonico
 
         private void ObtenerX()
         {
+            X.Clear();
             X.Add("$");
             foreach (Nodo nodo in g)
             {
@@ -618,7 +642,110 @@ namespace LR_Canonico
                             }
                         }
                     }
+                    else
+                    {
+                        if(l[2] == '-' && nodo.name[1] != '0')
+                        {
+                            for (i = 0; i < tablaCanonica.Columns.Count && tablaCanonica.Columns[i].Name != "$"; i++) ;
+                            tablaCanonica[i, int.Parse(nodo.name.Substring(1))].Value = "Accep";
+                        }
+                    }
                 }
+            }
+        }
+
+        private void Parse_Click(object sender, EventArgs e)
+        {
+            comprobacion.Rows.Clear();
+            comprobacion.Columns.Clear();
+            comprobacion.Columns.Add("Pila", "Pila");
+            comprobacion.Columns.Add("Entrada", "Entrada");
+            comprobacion.Columns.Add("Accion", "Accion");
+            string word = Word.Text + " $";
+            int i;
+            string pila = "0";
+            string accion = "0";
+            List<string> words = new List<string>();
+            words = word.Split(' ').ToList();
+            while (accion != "" && accion != "Accep")
+            {
+                string edoS = "";
+                for (i = 0; i < tablaCanonica.Columns.Count && tablaCanonica.Columns[i].Name != words[0]; i++) ;
+                for(int j = pila.Length-1; j >= 0 && char.IsNumber(pila[j]); j--)
+                {
+                    edoS = pila[j] + edoS;
+                }
+
+                accion = tablaCanonica[i, int.Parse(edoS)].Value.ToString();
+                comprobacion.Rows.Add(pila, word, accion);
+                if (accion.Length > 0 && accion[0] == 'd')
+                {
+                    pila += " " + words[0] + " " + accion.Substring(1);
+                    word = word.Substring(words[0].Length + 1);
+                    words.RemoveAt(0);
+                }
+                else
+                {
+                    if (accion.Length > 0 && accion[0] == 'r')
+                    {
+                        edoS = accion.Substring(1);
+                        string gramar = gramatica[int.Parse(edoS) - 1];
+                        gramar = gramar.Substring(3);
+                        int cont = 0;
+                        bool b = false;
+                        foreach (char c in gramar)
+                        {
+                            if (char.IsLower(c))
+                            {
+                                if (!b)
+                                    b = true;
+                            }
+                            else
+                            {
+                                if (b)
+                                {
+                                    cont++;
+                                    b = false;
+                                }
+                                cont++;
+                            }
+                        }
+                        if (b)
+                        {
+                            cont++;
+                            b = false;
+                        }
+                        List<string> ls = new List<string>();
+                        ls = pila.Split(' ').ToList();
+                        ls.RemoveRange(ls.Count - (cont * 2), cont * 2);
+                        gramar = gramatica[int.Parse(edoS) - 1];
+                        gramar = gramar.Remove(1);
+                        ls.Add(gramar);
+                        for (i = 0; i < tablaCanonica.Columns.Count && tablaCanonica.Columns[i].Name != gramar; i++) ;
+                        if (tablaCanonica[i, int.Parse(ls[ls.Count - 2])].Value != null)
+                        {
+                            ls.Add(tablaCanonica[i, int.Parse(ls[ls.Count - 2])].Value.ToString());
+                            pila = "";
+                            foreach (string s in ls)
+                            {
+                                pila += s + " ";
+                            }
+                            pila = pila.Remove(pila.Length - 1);
+                        }
+                        else
+                            accion = "";
+                    }
+                }
+            }
+            if (accion == "Accep")
+            {
+                Resultado.Text = "Correcto";
+                Resultado.BackColor = Color.GreenYellow;
+            }
+            else
+            {
+                Resultado.Text = "Error";
+                Resultado.BackColor = Color.Red;
             }
         }
     }

@@ -50,9 +50,19 @@
             this.button1 = new System.Windows.Forms.Button();
             this.treeConjuntos = new System.Windows.Forms.TreeView();
             this.tablaCanonica = new System.Windows.Forms.DataGridView();
+            this.comprobacion = new System.Windows.Forms.DataGridView();
+            this.Pila = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Entrada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Word = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Parse = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.Resultado = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaCanonica)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comprobacion)).BeginInit();
             this.SuspendLayout();
             // 
             // expandida
@@ -122,7 +132,7 @@
             this.open});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1132, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1370, 25);
             this.toolStrip1.TabIndex = 14;
             this.toolStrip1.Text = "toolStrip1";
             this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ToolStrip1_ItemClicked);
@@ -153,7 +163,7 @@
             this.archivoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1132, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1370, 24);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -235,14 +245,94 @@
             this.tablaCanonica.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaCanonica.Location = new System.Drawing.Point(579, 72);
             this.tablaCanonica.Name = "tablaCanonica";
-            this.tablaCanonica.Size = new System.Drawing.Size(541, 333);
+            this.tablaCanonica.Size = new System.Drawing.Size(441, 333);
             this.tablaCanonica.TabIndex = 21;
+            // 
+            // comprobacion
+            // 
+            this.comprobacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.comprobacion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Pila,
+            this.Entrada,
+            this.Accion});
+            this.comprobacion.Location = new System.Drawing.Point(1026, 99);
+            this.comprobacion.Name = "comprobacion";
+            this.comprobacion.Size = new System.Drawing.Size(332, 306);
+            this.comprobacion.TabIndex = 22;
+            // 
+            // Pila
+            // 
+            this.Pila.HeaderText = "Pila";
+            this.Pila.Name = "Pila";
+            // 
+            // Entrada
+            // 
+            this.Entrada.HeaderText = "Entrada";
+            this.Entrada.Name = "Entrada";
+            // 
+            // Accion
+            // 
+            this.Accion.HeaderText = "Accion";
+            this.Accion.Name = "Accion";
+            // 
+            // Word
+            // 
+            this.Word.Location = new System.Drawing.Point(1084, 71);
+            this.Word.Name = "Word";
+            this.Word.Size = new System.Drawing.Size(193, 20);
+            this.Word.TabIndex = 23;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(1028, 73);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 16);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Tokens:";
+            // 
+            // Parse
+            // 
+            this.Parse.Location = new System.Drawing.Point(1283, 70);
+            this.Parse.Name = "Parse";
+            this.Parse.Size = new System.Drawing.Size(75, 23);
+            this.Parse.TabIndex = 25;
+            this.Parse.Text = "PARSE";
+            this.Parse.UseVisualStyleBackColor = true;
+            this.Parse.Click += new System.EventHandler(this.Parse_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(576, 53);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(115, 16);
+            this.label4.TabIndex = 26;
+            this.label4.Text = "Tabla de analisis";
+            // 
+            // Resultado
+            // 
+            this.Resultado.AutoSize = true;
+            this.Resultado.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Resultado.Location = new System.Drawing.Point(1162, 53);
+            this.Resultado.Name = "Resultado";
+            this.Resultado.Size = new System.Drawing.Size(36, 16);
+            this.Resultado.TabIndex = 27;
+            this.Resultado.Text = "label5";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1132, 417);
+            this.ClientSize = new System.Drawing.Size(1370, 417);
+            this.Controls.Add(this.Resultado);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.Parse);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.Word);
+            this.Controls.Add(this.comprobacion);
             this.Controls.Add(this.tablaCanonica);
             this.Controls.Add(this.treeConjuntos);
             this.Controls.Add(this.button1);
@@ -265,6 +355,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tablaCanonica)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comprobacion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -293,6 +384,15 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TreeView treeConjuntos;
         private System.Windows.Forms.DataGridView tablaCanonica;
+        private System.Windows.Forms.DataGridView comprobacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Pila;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Entrada;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accion;
+        private System.Windows.Forms.TextBox Word;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button Parse;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label Resultado;
     }
 }
 
