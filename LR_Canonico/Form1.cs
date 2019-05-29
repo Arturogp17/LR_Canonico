@@ -18,6 +18,7 @@ namespace LR_Canonico
         readonly List<Nodo> g = new List<Nodo>();
         readonly List<Nodo> conjuntos = new List<Nodo>();
         readonly List<string> X = new List<string>();
+        readonly List<string> diccionario = new List<string>();
         public Form1()
         {
             InitializeComponent();
@@ -58,6 +59,9 @@ namespace LR_Canonico
 
                         tablaCanonica.Rows.Clear();
                         tablaCanonica.Columns.Clear();
+                        comprobacion.Rows.Clear();
+                        Resultado.Text = "";
+                        Resultado.BackColor = BackColor;
                         StreamReader sr = new StreamReader(openFileDialog1.FileName);
                         line = sr.ReadLine();
                         while (line != null)
@@ -98,8 +102,8 @@ namespace LR_Canonico
             for (int i = 0; i < gramatica.Count(); i++)
             {
                 List<string> cad = new List<string>();
-                cad = gramatica[i].Split('-').ToList();
-                cad[1] = cad[1].Substring(1);
+                cad = gramatica[i].Split('>').ToList();
+                cad[0] = cad[0].Remove(cad[0].Length - 1);
                 nodo = BuscaNodo(cad[0]);
                 if (nodo == null)
                 {
@@ -509,6 +513,11 @@ namespace LR_Canonico
                     }
                 }
             }
+            foreach(string s in X)
+            {
+                if (!char.IsUpper(s[0]))
+                    diccionario.Add(s);
+            }
         }
 
         private void Cerradura(Nodo edo, int pos)
@@ -662,11 +671,28 @@ namespace LR_Canonico
             comprobacion.Columns.Add("Entrada", "Entrada");
             comprobacion.Columns.Add("Accion", "Accion");
             string word = Word.Text + " $";
+            string palabra = "";
+            List<string> words = new List<string>();
+            foreach (char c in word)
+            {
+                palabra += c;
+                if(diccionario.Contains(palabra))
+                {
+                    words.Add(palabra);
+                    palabra = "";
+                }
+            }
+            word = "";
+            foreach(string s in words)
+            {
+                word += s + " ";
+            }
+            word += "$";
+            words.Add("$");
             int i;
             string pila = "0";
             string accion = "0";
-            List<string> words = new List<string>();
-            words = word.Split(' ').ToList();
+            
             while (accion != "" && accion != "Accep")
             {
                 string edoS = "";

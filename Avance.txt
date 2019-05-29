@@ -113,8 +113,20 @@ Rev.
 ----------------------------------------
 3 de mayo de 2019
 Avance:
-	LR Canonico generado primero, siguiente, conjuntos
+	LR Canonico generado primero, siguiente, conjuntos	OK
+----------------------
 Rev.
+	Tabla
+	Corrida.
+--------------------
+17 de mayo de 2019
+Avance:
+	Tabla y corrida (con espacios)
+----------------------------
+Rev.
+----------------------------
+
+
 		
 	
 

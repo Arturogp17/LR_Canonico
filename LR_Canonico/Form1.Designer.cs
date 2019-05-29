@@ -277,20 +277,20 @@
             // 
             // Word
             // 
-            this.Word.Location = new System.Drawing.Point(1084, 71);
+            this.Word.Location = new System.Drawing.Point(1082, 71);
             this.Word.Name = "Word";
-            this.Word.Size = new System.Drawing.Size(193, 20);
+            this.Word.Size = new System.Drawing.Size(195, 20);
             this.Word.TabIndex = 23;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1028, 73);
+            this.label3.Location = new System.Drawing.Point(1022, 73);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 16);
+            this.label3.Size = new System.Drawing.Size(62, 16);
             this.label3.TabIndex = 24;
-            this.label3.Text = "Tokens:";
+            this.label3.Text = "Palabra:";
             // 
             // Parse
             // 
@@ -298,7 +298,7 @@
             this.Parse.Name = "Parse";
             this.Parse.Size = new System.Drawing.Size(75, 23);
             this.Parse.TabIndex = 25;
-            this.Parse.Text = "PARSE";
+            this.Parse.Text = "Probar";
             this.Parse.UseVisualStyleBackColor = true;
             this.Parse.Click += new System.EventHandler(this.Parse_Click);
             // 
@@ -318,9 +318,8 @@
             this.Resultado.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Resultado.Location = new System.Drawing.Point(1162, 53);
             this.Resultado.Name = "Resultado";
-            this.Resultado.Size = new System.Drawing.Size(36, 16);
+            this.Resultado.Size = new System.Drawing.Size(0, 16);
             this.Resultado.TabIndex = 27;
-            this.Resultado.Text = "label5";
             // 
             // Form1
             // 
@@ -330,7 +329,6 @@
             this.Controls.Add(this.Resultado);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.Parse);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.Word);
             this.Controls.Add(this.comprobacion);
             this.Controls.Add(this.tablaCanonica);
@@ -347,6 +345,7 @@
             this.Controls.Add(this.expand);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.expandida);
+            this.Controls.Add(this.label3);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
